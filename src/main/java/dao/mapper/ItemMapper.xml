@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ItemDao">
+    <delete id="deleteItem" parameterType="Integer">
+        delete from item where itemid=#{itemId}
+    </delete>
+    <update id="modifyQuantity" parameterType="bean.vo.Item">
+        update item set quantity=#{quantity} where itemid=#{itemId}
+    </update>
+    <insert id="addItem" parameterType="bean.vo.Item" keyProperty="itemId" useGeneratedKeys="true">
+        insert into item (quantity,goodsid) values(#{quantity},#{goods.goodsId})
+    </insert>
+    <select id="getItemsById" parameterType="String"
+            resultType="bean.vo.Item">
+        select * from item where goodsid=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.OrderAndItemDao">
+    <insert id="addOrderAndItem" parameterType="List">
+        insert into order_item (orderid, itemid) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.orderId},#{item.itemId})
+        </foreach>
+    </insert>
+    <resultMap id="items" type="bean.vo.Item">
+        <id property="itemId" column="itemid" />
+        <result property="quantity" column="quantity" />
+        <association property="goods" column="goodsid" javaType="bean.vo.GoodsVo"
+                     select="dao.GoodsDAO.getGoodsById" />
+    </resultMap>
+    <select id="getItemsByOrderId" resultMap="items" parameterType="Integer">
+        select i.*, oi.orderid
+        from item i, order_item oi
+        where oi.orderid = #{orderid}
+        and oi.itemid = i.itemid
+    </select>
+</mapper>

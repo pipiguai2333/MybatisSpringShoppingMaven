@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.GoodsDAO">
+    <select id="getGoodsByPage" parameterType="Map"
+            resultType="bean.vo.GoodsVo">
+            select * from good limit ${(pageNo-1)*pageSize},${pageSize}
+    </select>
+    <select id="getGoodsById" parameterType="String"
+            resultType="bean.vo.GoodsVo">
+        select * from good where goodsid=#{id}
+    </select>
+    <select id="getPageCount" resultType="Integer">
+        select (count(*)+1)/2 from good
+    </select>
+    <insert id="addGoods" parameterType="bean.vo.GoodsVo">
+        insert into good values(#{goodsId},#{goodsName},#{price})
+    </insert>
+    <update id="modifyGoods" parameterType="bean.vo.GoodsVo">
+            update good set goodsname=#{goodsName},price=#{price} where goodsid=#{goodsId}
+    </update>
+    <delete id="deleteGoods" parameterType="String">
+        delete from good where goodsid=#{id}
+    </delete>
+</mapper>
